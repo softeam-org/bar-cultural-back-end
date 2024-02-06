@@ -1,0 +1,21 @@
+version: '3.0'
+
+services:
+  bar-cultural-db:
+    image: postgres:13
+    container_name: bar-cultural-db
+    restart: always
+    ports:
+      - 5432:5432
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+    driver: local
