@@ -1,27 +1,61 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+} from '@nestjs/common';
+
+import { PrismaService } from '@src/prisma/prisma.service';
 
 import { CreateAdministratorDto } from './dto/create-administrator.dto';
 import { UpdateAdministratorDto } from './dto/update-administrator.dto';
 
 @Injectable()
 export class AdministratorsService {
-  create(createAdministratorDto: CreateAdministratorDto) {
-    return createAdministratorDto;
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(createAdministratorDto: CreateAdministratorDto) {
+    try {
+      const administrator = await this.prisma.administrators.create({
+        data: createAdministratorDto,
+      });
+      return administrator;
+    } catch (err) {
+      throw new ConflictException('Email já existe');
+    }
   }
 
-  findAll() {
-    return `This action returns all administrators`;
+  async findAll() {
+    return await this.prisma.administrators.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} administrator`;
+  async findOne(id: string) {
+    try {
+      const administrator = await this.prisma.administrators.findFirst({
+        where: { id },
+      });
+      return administrator;
+    } catch {
+      throw new BadRequestException('Administrator não existe');
+    }
   }
 
-  update(id: number, updateAdministratorDto: UpdateAdministratorDto) {
-    return `This action updates a #${id} ${updateAdministratorDto} administrator`;
+  async update(id: string, updateAdministratorDto: UpdateAdministratorDto) {
+    try {
+      const administrator = await this.prisma.administrators.update({
+        where: { id },
+        data: updateAdministratorDto,
+      });
+      return administrator;
+    } catch {
+      throw new ConflictException('Email já existe.');
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} administrator`;
+  async remove(id: string) {
+    try {
+      await this.prisma.administrators.delete({ where: { id } });
+    } catch {
+      throw new BadRequestException('Administrador não existe.');
+    }
   }
 }
