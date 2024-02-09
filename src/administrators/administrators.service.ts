@@ -22,7 +22,7 @@ export class AdministratorsService {
       });
       return administrator;
     } catch (err) {
-      throw new ConflictException('Email já existe');
+      throw new ConflictException('Email já existe.');
     }
   }
 
@@ -31,14 +31,12 @@ export class AdministratorsService {
   }
 
   async findOne(id: string) {
-    try {
-      const administrator = await this.prisma.administrators.findFirst({
-        where: { id },
-      });
-      return administrator;
-    } catch {
-      throw new BadRequestException('Administrator não existe');
-    }
+    const administrator = await this.prisma.administrators.findFirst({
+      where: { id },
+    });
+    if (!administrator)
+      throw new BadRequestException('Administrator não existe.');
+    return administrator;
   }
 
   async update(id: string, updateAdministratorDto: UpdateAdministratorDto) {

@@ -34,6 +34,16 @@ describe('AppController (e2e)', () => {
       });
   });
 
+  it('should return error /administrator (POST)', () => {
+    return request(app.getHttpServer())
+      .post('/administrators')
+      .send(createAdministratorDto)
+      .expect(409)
+      .expect((response) => {
+        expect(response.body.message).toEqual('Email já existe.');
+      });
+  });
+
   it('/administrator (GET)', () => {
     const administrator = new Administrator();
 
@@ -54,7 +64,7 @@ describe('AppController (e2e)', () => {
 
   it('/administrator (GET)', async () => {
     let administratorId;
-    request(app.getHttpServer())
+    await request(app.getHttpServer())
       .get('/administrators')
       .expect(200)
       .expect((response) => {
@@ -64,6 +74,15 @@ describe('AppController (e2e)', () => {
     return request(app.getHttpServer())
       .get(`/administrators/${administratorId}`)
       .expect(200);
+  });
+
+  it('shoudl return error /administrator (GET)', async () => {
+    return request(app.getHttpServer())
+      .get(`/administrators/${'invalido'}`)
+      .expect(400)
+      .expect((response) => {
+        expect(response.body.message).toEqual('Administrator não existe.');
+      });
   });
 
   it('/administrator (PATCH)', async () => {
@@ -90,7 +109,48 @@ describe('AppController (e2e)', () => {
       });
   });
 
-  it('/administrator (GET)', async () => {
+  it('should return errors /administrator (PATCH)', async () => {
+    createAdministratorDto.email = 'email-valido2@gmail.com';
+    await request(app.getHttpServer())
+      .post('/administrators')
+      .send(createAdministratorDto)
+      .expect(201)
+      .expect((response) => {
+        expect(response.body).toHaveProperty('id');
+      });
+
+    let administratorId;
+    await request(app.getHttpServer())
+      .get('/administrators')
+      .expect(200)
+      .expect((response) => {
+        administratorId = response.body[0].id;
+      });
+
+    const updatedAdministrator = new UpdateAdministratorDto();
+    updatedAdministrator.email = 'email-valido2@gmail.com';
+    updatedAdministrator.name = 'nome alterado';
+
+    await request(app.getHttpServer())
+      .patch(`/administrators/${administratorId}`)
+      .send(updatedAdministrator)
+      .expect(409)
+      .expect((response) => {
+        const { body } = response;
+        expect(body.message).toEqual('Email já existe.');
+      });
+
+    await request(app.getHttpServer())
+      .patch(`/administrators/invalido`)
+      .send(updatedAdministrator)
+      .expect(400)
+      .expect((response) => {
+        const { body } = response;
+        expect(body.message).toEqual('Administrador não existe.');
+      });
+  });
+
+  it('/administrator (DELETE)', async () => {
     let administratorId;
     request(app.getHttpServer())
       .get('/administrators')
@@ -99,8 +159,17 @@ describe('AppController (e2e)', () => {
         administratorId = response.body[0].id;
       });
 
-    request(app.getHttpServer())
+    return request(app.getHttpServer())
       .delete(`/administrators/${administratorId}`)
       .expect(200);
+  });
+
+  it('should return error /administrator (DELETE)', async () => {
+    request(app.getHttpServer())
+      .delete(`/administrators/invalido`)
+      .expect(400)
+      .expect((response) => {
+        expect(response.body.message).toEqual('Administrador não existe.');
+      });
   });
 });
