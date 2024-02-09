@@ -152,7 +152,8 @@ describe('AppController (e2e)', () => {
 
   it('/administrator (DELETE)', async () => {
     let administratorId;
-    request(app.getHttpServer())
+
+    await request(app.getHttpServer())
       .get('/administrators')
       .expect(200)
       .expect((response) => {
