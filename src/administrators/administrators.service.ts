@@ -4,6 +4,8 @@ import {
   Injectable,
 } from '@nestjs/common';
 
+import { Prisma } from '@prisma/client';
+
 import { PrismaService } from '@src/prisma/prisma.service';
 
 import { CreateAdministratorDto } from './dto/create-administrator.dto';
@@ -48,7 +50,10 @@ export class AdministratorsService {
       return administrator;
     } catch (err) {
       const recordNotFound = 'P2025';
-      if (recordNotFound == err.code)
+      if (
+        err instanceof Prisma.PrismaClientKnownRequestError &&
+        recordNotFound == err.code
+      )
         throw new BadRequestException('Administrador não existe.');
       else throw new ConflictException('Email já existe.');
     }
