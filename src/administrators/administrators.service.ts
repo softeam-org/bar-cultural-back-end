@@ -46,8 +46,11 @@ export class AdministratorsService {
         data: updateAdministratorDto,
       });
       return administrator;
-    } catch {
-      throw new ConflictException('Email já existe.');
+    } catch (err) {
+      const recordNotFound = 'P2025';
+      if (recordNotFound == err.code)
+        throw new BadRequestException('Administrador não existe.');
+      else throw new ConflictException('Email já existe.');
     }
   }
 

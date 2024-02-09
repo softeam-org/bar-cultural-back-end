@@ -18,6 +18,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "npx prisma migrate reset -f && jest --config ./test/jest-e2e.ts",
+    "test:e2e:watch": "npx prisma migrate reset -f && jest --watch --config ./test/jest-e2e.ts",
     "prepare": "husky",
     "commitlint": "commitlint --edit"
   },

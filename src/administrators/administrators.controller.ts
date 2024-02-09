@@ -68,7 +68,7 @@ export class AdministratorsController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateAdministratorDto: UpdateAdministratorDto,
+    @Body(new ValidationPipe()) updateAdministratorDto: UpdateAdministratorDto,
   ) {
     return this.administratorsService.update(id, updateAdministratorDto);
   }
