@@ -1,7 +1,6 @@
 export default {
   moduleFileExtensions: ['js', 'json', 'ts'],
   rootDir: '../',
-  testEnvironment: 'node',
   testRegex: '.e2e-spec.ts$',
   transform: {
     '^.+\\.(t|j)s$': 'ts-jest',
@@ -9,4 +8,5 @@ export default {
   moduleNameMapper: {
     '^@src/(.*)$': '<rootDir>/src/$1',
   },
+  testEnvironment: './prisma/prisma-test-environment.ts',
 };
