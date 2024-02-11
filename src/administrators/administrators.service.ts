@@ -25,7 +25,7 @@ export class AdministratorsService {
       const hashedPassword = await hash(String(password), roundsOfHashing);
       createAdministratorDto.password = hashedPassword;
 
-      const administrator = await this.prisma.administrators.create({
+      const administrator = await this.prisma.administrator.create({
         data: createAdministratorDto,
         select: selectAdmin,
       });
@@ -36,11 +36,11 @@ export class AdministratorsService {
   }
 
   async findAll() {
-    return await this.prisma.administrators.findMany({ select: selectAdmin });
+    return await this.prisma.administrator.findMany({ select: selectAdmin });
   }
 
   async findOne(id: string) {
-    const administrator = await this.prisma.administrators.findFirst({
+    const administrator = await this.prisma.administrator.findFirst({
       where: { id },
       select: selectAdmin,
     });
@@ -52,7 +52,7 @@ export class AdministratorsService {
   async update(id: string, updateAdministratorDto: UpdateAdministratorDto) {
     try {
       delete updateAdministratorDto.password;
-      const administrator = await this.prisma.administrators.update({
+      const administrator = await this.prisma.administrator.update({
         where: { id },
         data: updateAdministratorDto,
         select: selectAdmin,
@@ -71,7 +71,7 @@ export class AdministratorsService {
 
   async remove(id: string) {
     try {
-      await this.prisma.administrators.delete({ where: { id } });
+      await this.prisma.administrator.delete({ where: { id } });
     } catch {
       throw new BadRequestException('Administrador não existe.');
     }

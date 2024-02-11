@@ -34,7 +34,7 @@ describe('Administrators (e2e)', () => {
     }).compile();
 
     prisma = moduleFixture.get<PrismaService>(PrismaService);
-    await prisma.administrators.deleteMany();
+    await prisma.administrator.deleteMany();
 
     app = moduleFixture.createNestApplication();
     await app.init();

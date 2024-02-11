@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
 
-export const selectAdmin: Prisma.AdministratorsSelect = {
+export const selectAdmin: Prisma.AdministratorSelect = {
   created_at: true,
   email: true,
   id: true,
