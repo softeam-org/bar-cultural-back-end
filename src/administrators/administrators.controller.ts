@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  ValidationPipe,
 } from '@nestjs/common';
 import {
   ApiBadGatewayResponse,
@@ -34,9 +33,7 @@ export class AdministratorsController {
   @ApiConflictResponse({ description: 'Email já existe.' })
   @ApiBadGatewayResponse({ description: 'Requisição inválida.' })
   @Post()
-  create(
-    @Body(new ValidationPipe()) createAdministratorDto: CreateAdministratorDto,
-  ) {
+  create(@Body() createAdministratorDto: CreateAdministratorDto) {
     return this.administratorsService.create(createAdministratorDto);
   }
 
@@ -68,7 +65,7 @@ export class AdministratorsController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body(new ValidationPipe()) updateAdministratorDto: UpdateAdministratorDto,
+    @Body() updateAdministratorDto: UpdateAdministratorDto,
   ) {
     return this.administratorsService.update(id, updateAdministratorDto);
   }
