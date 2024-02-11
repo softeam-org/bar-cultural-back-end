@@ -21,5 +21,7 @@
 
 - Instale as dependências `pnpm install`
 - Configure o seu `.env`. Na raíz do projeto existe um `.env.example` com as variáveis necessárias.
+- Configure o seu `.env.test`. Na raíz do projeto existe um `.env.test.example` com as variáveis necessárias.
 - Rode o docker-compose para ter acesso ao postgres:13 com `docker-compose up -d`
+- Rode as migrations do prisma para ter acesso ao banco com as tabelas atualizadas com `pnpm exec prisma migrate dev`
 - Rode o app `pnpm run start:dev`
