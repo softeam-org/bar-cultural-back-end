@@ -63,9 +63,9 @@ export class AdministratorsService {
       if (
         err instanceof Prisma.PrismaClientKnownRequestError &&
         recordNotFound == err.code
-      )
+      ) {
         throw new BadRequestException('Administrador não existe.');
-      else throw new ConflictException('Email já existe.');
+      } else throw new ConflictException('Email já existe.');
     }
   }
 
