@@ -11,13 +11,16 @@ import { PrismaService } from '@src/prisma/prisma.service';
 
 import { CreateAdministratorDto } from './dto/create-administrator.dto';
 import { UpdateAdministratorDto } from './dto/update-administrator.dto';
+import { Administrator } from './entities/administrator.entity';
 import { selectAdmin } from './models';
 
 @Injectable()
 export class AdministratorsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(createAdministratorDto: CreateAdministratorDto) {
+  async create(
+    createAdministratorDto: CreateAdministratorDto,
+  ): Promise<Administrator> {
     try {
       const { password } = createAdministratorDto;
 
@@ -35,11 +38,11 @@ export class AdministratorsService {
     }
   }
 
-  async findAll() {
+  async findAll(): Promise<Administrator[]> {
     return await this.prisma.administrator.findMany({ select: selectAdmin });
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<Administrator> {
     const administrator = await this.prisma.administrator.findFirst({
       where: { id },
       select: selectAdmin,
@@ -49,7 +52,10 @@ export class AdministratorsService {
     return administrator;
   }
 
-  async update(id: string, updateAdministratorDto: UpdateAdministratorDto) {
+  async update(
+    id: string,
+    updateAdministratorDto: UpdateAdministratorDto,
+  ): Promise<Administrator> {
     try {
       delete updateAdministratorDto.password;
       const administrator = await this.prisma.administrator.update({
@@ -69,7 +75,7 @@ export class AdministratorsService {
     }
   }
 
-  async remove(id: string) {
+  async remove(id: string): Promise<void> {
     try {
       await this.prisma.administrator.delete({ where: { id } });
     } catch {
