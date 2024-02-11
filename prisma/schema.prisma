@@ -10,13 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Model para testar a integração do prisma somente. Vai ser removido.
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-}
-
 model Administrators {
   id         String   @id @default(uuid())
   name       String

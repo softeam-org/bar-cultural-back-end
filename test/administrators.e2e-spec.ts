@@ -26,7 +26,6 @@ describe('Administrators (e2e)', () => {
     administrator.id = expect.any(String);
     administrator.email = createAdministratorDto.email;
     administrator.name = createAdministratorDto.name;
-    administrator.password = createAdministratorDto.password;
     administrator.created_at = expect.any(String);
     administrator.updated_at = expect.any(String);
 
