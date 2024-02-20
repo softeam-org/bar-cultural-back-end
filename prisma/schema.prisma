@@ -20,3 +20,14 @@ model Administrator {
 
   @@map("administrators")
 }
+
+model Product {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String 
+  value       Float
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt()
+
+  @@map("products")
+}
