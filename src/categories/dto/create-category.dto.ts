@@ -7,7 +7,10 @@ export class CreateCategoryDto {
   @IsString()
   name: string;
 
-  @ApiProperty({ example: '' })
+  @ApiProperty({
+    example:
+      'Descubra bebidas para todos os gostos: cervejas geladas, vinhos escolhidos a dedo e coquetéis clássicos. Aqui, a hidratação vem com sabor.',
+  })
   @IsNotEmpty()
   @IsString()
   description: string;
