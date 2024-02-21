@@ -1,25 +1,25 @@
 import {
-    BadRequestException,
-    ConflictException,
-    Injectable,
-  } from '@nestjs/common';
-  
+  BadRequestException,
+  ConflictException,
+  Injectable,
+} from '@nestjs/common';
+
 import { Prisma } from '@prisma/client';
-  
+
 import { PrismaService } from '@src/prisma/prisma.service';
 
-import { CreateEventDto } from "./dto/create-event.dto";
-import { UpdateEventDto } from "./dto/update-event.dto";
-import { Event } from "./entities/event.entity";
+import { CreateEventDto } from './dto/create-event.dto';
+import { UpdateEventDto } from './dto/update-event.dto';
+import { Event } from './entities/event.entity';
 
 @Injectable()
 export class EventService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(createEvent: CreateEventDto): Promise<Event> {
-    try{
+  async create(createEventDto: CreateEventDto): Promise<Event> {
+    try {
       const event = await this.prisma.event.create({
-      data: CreateEventDto,
+        data: createEventDto,
       });
       return event;
     } catch (err) {
@@ -27,28 +27,25 @@ export class EventService {
     }
   }
 
-  async findAll(): Promise<Event> {
-    return await this.prisma.event.findMany()
+  async findAll(): Promise<Event[]> {
+    return await this.prisma.event.findMany();
   }
 
-  async findOne (id: string): Promise<Event>{
-    const event =await this.prisma.event.findFirst ({
+  async findOne(id: string): Promise<Event> {
+    const event = await this.prisma.event.findFirst({
       where: { id },
-    })
-    if (!event) throw new BadRequestException('Evento não existente')
-    return event
+    });
+    if (!event) throw new BadRequestException('Evento não existente');
+    return event;
   }
-  
-  async update (
-    id: string,
-    updateEventeDto: UpdateEventDto
-  ): Promise<Event> {
+
+  async update(id: string, updateEventeDto: UpdateEventDto): Promise<Event> {
     try {
-      const event  = await this.prisma.event.update({
+      const event = await this.prisma.event.update({
         where: { id },
-        data: updateEventeDto
-      })
-      return event
+        data: updateEventeDto,
+      });
+      return event;
     } catch (err) {
       const recordNotFound = 'P2025';
       if (
@@ -56,19 +53,17 @@ export class EventService {
         recordNotFound == err.code
       ) {
         throw new BadRequestException('Evento não existe.');
-      } else throw new ConflictException('Nome dao evento já existe.');
+      } else throw new ConflictException('Evento já existe.');
     }
   }
 
   async remove(id: string): Promise<void> {
     try {
-      await this.prisma.event.delete ({
+      await this.prisma.event.delete({
         where: { id },
-      })
+      });
     } catch (err) {
-      throw new BadRequestException('Evento  não existe')
+      throw new BadRequestException('Evento  não existe');
     }
   }
 }
-
-  

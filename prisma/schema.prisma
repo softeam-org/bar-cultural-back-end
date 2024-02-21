@@ -20,3 +20,14 @@ model Administrator {
 
   @@map("administrators")
 }
+
+model Event {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String
+  created_by  String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt()
+
+  @@map("events")
+}
