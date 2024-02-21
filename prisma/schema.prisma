@@ -21,6 +21,26 @@ model Administrator {
   @@map("administrators")
 }
 
+model Category {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt()
+
+  @@map("categories")
+}
+
+model Category {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt()
+
+  @@map("categories")
+}
+
 model Product {
   id          String   @id @default(uuid())
   name        String   @unique
