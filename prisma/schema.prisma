@@ -21,6 +21,16 @@ model Administrator {
   @@map("administrators")
 }
 
+model Category {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt()
+
+  @@map("categories")
+}
+
 model Event {
   id          String   @id @default(uuid())
   name        String   @unique
