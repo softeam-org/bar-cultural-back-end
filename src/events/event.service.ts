@@ -23,7 +23,7 @@ export class EventService {
       });
       return event;
     } catch (err) {
-      throw new ConflictException('Evento ja existente');
+      throw new ConflictException('Evento já existe.');
     }
   }
 
@@ -35,7 +35,7 @@ export class EventService {
     const event = await this.prisma.event.findFirst({
       where: { id },
     });
-    if (!event) throw new BadRequestException('Evento não existente');
+    if (!event) throw new BadRequestException('Evento não existe.');
     return event;
   }
 
@@ -63,7 +63,7 @@ export class EventService {
         where: { id },
       });
     } catch (err) {
-      throw new BadRequestException('Evento  não existe');
+      throw new BadRequestException('Evento não existe.');
     }
   }
 }

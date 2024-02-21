@@ -83,6 +83,7 @@ describe('Events (e2e)', () => {
       .send(createEventDto)
       .expect(201)
       .expect((response) => {
+        expect(response.body).toHaveProperty('id');
         eventId = response.body.id;
       });
 
@@ -142,7 +143,7 @@ describe('Events (e2e)', () => {
       .expect(409)
       .expect((response) => {
         const { body } = response;
-        expect(body.message).toEqual('Nome já existe.');
+        expect(body.message).toEqual('Evento já existe.');
       });
 
     await request(app.getHttpServer())

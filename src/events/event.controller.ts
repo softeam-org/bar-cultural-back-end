@@ -52,6 +52,12 @@ export class EventController {
     type: Event,
     isArray: false,
   })
+  @ApiBadRequestResponse({ description: 'Evento não existe.' })
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.eventsService.findOne(id);
+  }
+
   @ApiBadRequestResponse({ description: 'Evento não existe' })
   @ApiConflictResponse({ description: 'Nome do evento ja existe' })
   @ApiOkResponse({
