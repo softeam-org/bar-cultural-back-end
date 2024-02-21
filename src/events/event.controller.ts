@@ -32,7 +32,7 @@ export class EventController {
     description: 'Evento criada com sucesso.',
     type: Event,
   })
-  @ApiConflictResponse({ description: 'Nome do evento' })
+  @ApiConflictResponse({ description: 'Evento ja existe' })
   @ApiBadGatewayResponse({ description: 'Requisição invalida' })
   @Post()
   create(@Body() createEvetDto: CreateEventDto) {
