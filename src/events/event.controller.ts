@@ -29,11 +29,11 @@ export class EventController {
   constructor(private readonly eventsService: EventService) {}
 
   @ApiCreatedResponse({
-    description: 'Evento criada com sucesso.',
+    description: 'Evento criado com sucesso.',
     type: Event,
   })
-  @ApiConflictResponse({ description: 'Evento ja existe' })
-  @ApiBadGatewayResponse({ description: 'Requisição invalida' })
+  @ApiConflictResponse({ description: 'Evento já existe' })
+  @ApiBadGatewayResponse({ description: 'Requisição inválida' })
   @Post()
   create(@Body() createEvetDto: CreateEventDto) {
     return this.eventsService.create(createEvetDto);
@@ -50,7 +50,6 @@ export class EventController {
 
   @ApiOkResponse({
     type: Event,
-    isArray: false,
   })
   @ApiBadRequestResponse({ description: 'Evento não existe.' })
   @Get(':id')
@@ -59,7 +58,7 @@ export class EventController {
   }
 
   @ApiBadRequestResponse({ description: 'Evento não existe' })
-  @ApiConflictResponse({ description: 'Nome do evento ja existe' })
+  @ApiConflictResponse({ description: 'Nome do evento já existe' })
   @ApiOkResponse({
     type: Event,
     description: 'Evento atualizado com sucesso',
