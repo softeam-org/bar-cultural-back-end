@@ -11,12 +11,22 @@ import { PrismaService } from '@src/prisma/prisma.service';
 
 describe('Categories (e2e)', () => {
   let app: INestApplication;
-
-  const createCategoryDto = new CreateCategoryDto();
   let moduleFixture: TestingModule;
   let prisma: PrismaService;
 
+  beforeAll(async () => {
+    moduleFixture = await Test.createTestingModule({
+      imports: [AppModule],
+    }).compile();
+    app = moduleFixture.createNestApplication();
+
+    prisma = moduleFixture.get<PrismaService>(PrismaService);
+
+    await app.init();
+  });
+
   const category = new Category();
+  const createCategoryDto = new CreateCategoryDto();
 
   beforeEach(async () => {
     createCategoryDto.name = 'categoria';
@@ -28,15 +38,7 @@ describe('Categories (e2e)', () => {
     category.created_at = expect.any(String);
     category.updated_at = expect.any(String);
 
-    moduleFixture = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-
-    prisma = moduleFixture.get<PrismaService>(PrismaService);
     await prisma.category.deleteMany();
-
-    app = moduleFixture.createNestApplication();
-    await app.init();
   });
 
   test('/category (POST)', async () => {

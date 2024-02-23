@@ -11,11 +11,21 @@ import { PrismaService } from '@src/prisma/prisma.service';
 
 describe('Administrators (e2e)', () => {
   let app: INestApplication;
-
-  const createAdministratorDto = new CreateAdministratorDto();
   let moduleFixture: TestingModule;
   let prisma: PrismaService;
 
+  beforeAll(async () => {
+    moduleFixture = await Test.createTestingModule({
+      imports: [AppModule],
+    }).compile();
+    app = moduleFixture.createNestApplication();
+
+    prisma = moduleFixture.get<PrismaService>(PrismaService);
+
+    await app.init();
+  });
+
+  const createAdministratorDto = new CreateAdministratorDto();
   const administrator = new Administrator();
 
   beforeEach(async () => {
@@ -29,15 +39,7 @@ describe('Administrators (e2e)', () => {
     administrator.created_at = expect.any(String);
     administrator.updated_at = expect.any(String);
 
-    moduleFixture = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-
-    prisma = moduleFixture.get<PrismaService>(PrismaService);
     await prisma.administrator.deleteMany();
-
-    app = moduleFixture.createNestApplication();
-    await app.init();
   });
 
   test('/administrator (POST)', async () => {

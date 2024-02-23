@@ -11,11 +11,21 @@ import { PrismaService } from '@src/prisma/prisma.service';
 
 describe('Events (e2e)', () => {
   let app: INestApplication;
-
-  const createEventDto = new CreateEventDto();
   let moduleFixture: TestingModule;
   let prisma: PrismaService;
 
+  beforeAll(async () => {
+    moduleFixture = await Test.createTestingModule({
+      imports: [AppModule],
+    }).compile();
+    app = moduleFixture.createNestApplication();
+
+    prisma = moduleFixture.get<PrismaService>(PrismaService);
+
+    await app.init();
+  });
+
+  const createEventDto = new CreateEventDto();
   const event = new Event();
 
   beforeEach(async () => {
@@ -30,15 +40,7 @@ describe('Events (e2e)', () => {
     event.created_at = expect.any(String);
     event.updated_at = expect.any(String);
 
-    moduleFixture = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-
-    prisma = moduleFixture.get<PrismaService>(PrismaService);
     await prisma.event.deleteMany();
-
-    app = moduleFixture.createNestApplication();
-    await app.init();
   });
 
   test('/event (POST)', async () => {
