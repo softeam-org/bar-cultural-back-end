@@ -31,10 +31,21 @@ model Category {
   @@map("categories")
 }
 
+model Event {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String
+  created_by  String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt()
+
+  @@map("events")
+}
+
 model Product {
   id          String   @id @default(uuid())
   name        String   @unique
-  description String 
+  description String
   value       Float
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt()
