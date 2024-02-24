@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBadGatewayResponse,
@@ -15,6 +16,9 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
+
+import { ParseSortOrderPipe } from '@src/utils/pipes/ParseSortOrderPipe';
+import { SortOrder } from '@src/utils/types/SortOrder';
 
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -42,8 +46,8 @@ export class CategoriesController {
     isArray: true,
   })
   @Get()
-  findAll() {
-    return this.categoriesService.findAll();
+  findAll(@Query('order', ParseSortOrderPipe) order: SortOrder) {
+    return this.categoriesService.findAll(order);
   }
 
   @ApiOkResponse({

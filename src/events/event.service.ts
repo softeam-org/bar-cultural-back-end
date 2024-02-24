@@ -7,6 +7,7 @@ import {
 import { Prisma } from '@prisma/client';
 
 import { PrismaService } from '@src/prisma/prisma.service';
+import { SortOrder } from '@src/utils/types/SortOrder';
 
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
@@ -27,8 +28,8 @@ export class EventService {
     }
   }
 
-  async findAll(): Promise<Event[]> {
-    return await this.prisma.event.findMany();
+  async findAll(order: SortOrder): Promise<Event[]> {
+    return await this.prisma.event.findMany({ orderBy: { name: order } });
   }
 
   async findOne(id: string): Promise<Event> {

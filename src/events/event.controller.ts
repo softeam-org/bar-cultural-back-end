@@ -8,6 +8,7 @@ import {
   Param,
   Delete,
   Patch,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBadGatewayResponse,
@@ -17,6 +18,9 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
+
+import { ParseSortOrderPipe } from '@src/utils/pipes/ParseSortOrderPipe';
+import { SortOrder } from '@src/utils/types/SortOrder';
 
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
@@ -44,8 +48,8 @@ export class EventController {
     isArray: true,
   })
   @Get()
-  findAll() {
-    return this.eventsService.findAll();
+  findAll(@Query('order', ParseSortOrderPipe) order: SortOrder) {
+    return this.eventsService.findAll(order);
   }
 
   @ApiOkResponse({

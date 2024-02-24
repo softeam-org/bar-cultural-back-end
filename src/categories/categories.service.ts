@@ -7,6 +7,7 @@ import {
 import { Prisma } from '@prisma/client';
 
 import { PrismaService } from '@src/prisma/prisma.service';
+import { SortOrder } from '@src/utils/types/SortOrder';
 
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
@@ -27,8 +28,10 @@ export class CategoriesService {
     }
   }
 
-  async findAll(): Promise<Category[]> {
-    return await this.prisma.category.findMany();
+  async findAll(order: SortOrder): Promise<Category[]> {
+    return await this.prisma.category.findMany({
+      orderBy: { name: order },
+    });
   }
 
   async findOne(id: string): Promise<Category> {
