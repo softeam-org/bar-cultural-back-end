@@ -70,11 +70,54 @@ describe('Events (e2e)', () => {
         expect(response.body).toHaveProperty('id');
       });
 
+    createEventDto.name = 'evento3';
+
+    await request(app.getHttpServer())
+      .post('/events')
+      .send(createEventDto)
+      .expect(201)
+      .expect((response) => {
+        expect(response.body).toHaveProperty('id');
+      });
+
+    createEventDto.name = 'evento2';
+
+    await request(app.getHttpServer())
+      .post('/events')
+      .send(createEventDto)
+      .expect(201)
+      .expect((response) => {
+        expect(response.body).toHaveProperty('id');
+      });
+
     await request(app.getHttpServer())
       .get('/events')
+      .query({ order: 'asc' })
       .expect(200)
       .expect((response) => {
-        expect(response.body[0]).toEqual(event);
+        expect(response.body[0].name).toEqual('evento');
+        expect(response.body[1].name).toEqual('evento2');
+        expect(response.body[2].name).toEqual('evento3');
+      });
+
+    await request(app.getHttpServer())
+      .get('/events')
+      .query({ order: 'desc' })
+      .expect(200)
+      .expect((response) => {
+        expect(response.body[0].name).toEqual('evento3');
+        expect(response.body[1].name).toEqual('evento2');
+        expect(response.body[2].name).toEqual('evento');
+      });
+
+    await request(app.getHttpServer())
+      .get('/events')
+      .query({ order: 'as' })
+      .expect(400)
+      .expect((response) => {
+        expect(response.body.message).toEqual(
+          "Ordem só pode ser 'asc' ou 'desc'",
+        );
       });
   });
 

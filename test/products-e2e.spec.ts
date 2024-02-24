@@ -70,11 +70,54 @@ describe('Products (e2e)', () => {
         expect(response.body).toHaveProperty('id');
       });
 
+    createProductDto.name = 'produto3';
+
+    await request(app.getHttpServer())
+      .post('/products')
+      .send(createProductDto)
+      .expect(201)
+      .expect((response) => {
+        expect(response.body).toHaveProperty('id');
+      });
+
+    createProductDto.name = 'produto2';
+
+    await request(app.getHttpServer())
+      .post('/products')
+      .send(createProductDto)
+      .expect(201)
+      .expect((response) => {
+        expect(response.body).toHaveProperty('id');
+      });
+
     await request(app.getHttpServer())
       .get('/products')
+      .query({ order: 'asc' })
       .expect(200)
       .expect((response) => {
-        expect(response.body[0]).toEqual(product);
+        expect(response.body[0].name).toEqual('produto');
+        expect(response.body[1].name).toEqual('produto2');
+        expect(response.body[2].name).toEqual('produto3');
+      });
+
+    await request(app.getHttpServer())
+      .get('/products')
+      .query({ order: 'desc' })
+      .expect(200)
+      .expect((response) => {
+        expect(response.body[0].name).toEqual('produto3');
+        expect(response.body[1].name).toEqual('produto2');
+        expect(response.body[2].name).toEqual('produto');
+      });
+
+    await request(app.getHttpServer())
+      .get('/products')
+      .query({ order: 'as' })
+      .expect(400)
+      .expect((response) => {
+        expect(response.body.message).toEqual(
+          "Ordem só pode ser 'asc' ou 'desc'",
+        );
       });
   });
 

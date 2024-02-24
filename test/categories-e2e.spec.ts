@@ -69,11 +69,54 @@ describe('Categories (e2e)', () => {
         expect(response.body).toHaveProperty('id');
       });
 
+    createCategoryDto.name = 'categoria3';
+
+    await request(app.getHttpServer())
+      .post('/categories')
+      .send(createCategoryDto)
+      .expect(201)
+      .expect((response) => {
+        expect(response.body).toHaveProperty('id');
+      });
+
+    createCategoryDto.name = 'categoria2';
+
+    await request(app.getHttpServer())
+      .post('/categories')
+      .send(createCategoryDto)
+      .expect(201)
+      .expect((response) => {
+        expect(response.body).toHaveProperty('id');
+      });
+
     await request(app.getHttpServer())
       .get('/categories')
+      .query({ order: 'asc' })
       .expect(200)
       .expect((response) => {
-        expect(response.body[0]).toEqual(category);
+        expect(response.body[0].name).toEqual('categoria');
+        expect(response.body[1].name).toEqual('categoria2');
+        expect(response.body[2].name).toEqual('categoria3');
+      });
+
+    await request(app.getHttpServer())
+      .get('/categories')
+      .query({ order: 'desc' })
+      .expect(200)
+      .expect((response) => {
+        expect(response.body[0].name).toEqual('categoria3');
+        expect(response.body[1].name).toEqual('categoria2');
+        expect(response.body[2].name).toEqual('categoria');
+      });
+
+    await request(app.getHttpServer())
+      .get('/categories')
+      .query({ order: 'as' })
+      .expect(400)
+      .expect((response) => {
+        expect(response.body.message).toEqual(
+          "Ordem só pode ser 'asc' ou 'desc'",
+        );
       });
   });
 
