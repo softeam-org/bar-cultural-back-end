@@ -29,7 +29,7 @@ describe('Administrators (e2e)', () => {
   const administrator = new Administrator();
 
   beforeEach(async () => {
-    createAdministratorDto.email = 'email-valido@gmail.com';
+    createAdministratorDto.email = 'emailValido@gmail.com';
     createAdministratorDto.password = 'apodk#$23423GF';
     createAdministratorDto.name = 'mockson';
 
@@ -61,19 +61,66 @@ describe('Administrators (e2e)', () => {
   });
 
   test('/administrator (GET)', async () => {
+    const administratorsNames = [
+      'administrador1',
+      'administrador2',
+      'administrador3',
+    ];
+    const create = administratorsNames.map((name) => {
+      const dto: CreateAdministratorDto = {
+        email: name + '@gmail.com',
+        name: name,
+        password: createAdministratorDto.password,
+      };
+      return request(app.getHttpServer())
+        .post('/administrators')
+        .send(dto)
+        .expect(201)
+        .expect((response) => {
+          expect(response.body).toHaveProperty('id');
+        });
+    });
+
+    await Promise.all(create);
+
     await request(app.getHttpServer())
-      .post('/administrators')
-      .send(createAdministratorDto)
-      .expect(201)
+      .get('/administrators')
+      .query({ order: 'asc' })
+      .expect(200)
       .expect((response) => {
-        expect(response.body).toHaveProperty('id');
+        expect(response.body[0].name).toEqual('administrador1');
+        expect(response.body[1].name).toEqual('administrador2');
+        expect(response.body[2].name).toEqual('administrador3');
       });
 
     await request(app.getHttpServer())
       .get('/administrators')
+      .query({ order: 'desc' })
       .expect(200)
       .expect((response) => {
-        expect(response.body[0]).toEqual(administrator);
+        expect(response.body[0].name).toEqual('administrador3');
+        expect(response.body[1].name).toEqual('administrador2');
+        expect(response.body[2].name).toEqual('administrador1');
+      });
+
+    await request(app.getHttpServer())
+      .get('/administrators')
+      .query({ order: 'as' })
+      .expect(400)
+      .expect((response) => {
+        expect(response.body.message).toEqual(
+          "Ordem só pode ser 'asc' ou 'desc'",
+        );
+      });
+
+    await request(app.getHttpServer())
+      .get('/administrators')
+      .query({ order: '' })
+      .expect(200)
+      .expect((response) => {
+        expect(response.body.message).toEqual(
+          expect(response.body[0].name).toEqual('administrador1'),
+        );
       });
   });
 

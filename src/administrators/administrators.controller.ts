@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBadGatewayResponse,
@@ -15,6 +16,9 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
+
+import { ParseSortOrderPipe } from '@src/utils/pipes';
+import { SortOrder } from '@src/utils/types';
 
 import { AdministratorsService } from './administrators.service';
 import { CreateAdministratorDto } from './dto/create-administrator.dto';
@@ -42,8 +46,8 @@ export class AdministratorsController {
     isArray: true,
   })
   @Get()
-  findAll() {
-    return this.administratorsService.findAll();
+  findAll(@Query('order', ParseSortOrderPipe) order: SortOrder) {
+    return this.administratorsService.findAll(order);
   }
 
   @ApiOkResponse({

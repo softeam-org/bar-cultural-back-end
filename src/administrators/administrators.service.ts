@@ -8,6 +8,7 @@ import { Prisma } from '@prisma/client';
 import { hash } from 'bcrypt';
 
 import { PrismaService } from '@src/prisma/prisma.service';
+import { SortOrder } from '@src/utils/types';
 
 import { CreateAdministratorDto } from './dto/create-administrator.dto';
 import { UpdateAdministratorDto } from './dto/update-administrator.dto';
@@ -38,8 +39,11 @@ export class AdministratorsService {
     }
   }
 
-  async findAll(): Promise<Administrator[]> {
-    return await this.prisma.administrator.findMany({ select: selectAdmin });
+  async findAll(order: SortOrder): Promise<Administrator[]> {
+    return await this.prisma.administrator.findMany({
+      select: selectAdmin,
+      orderBy: { name: order },
+    });
   }
 
   async findOne(id: string): Promise<Administrator> {
