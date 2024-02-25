@@ -105,6 +105,16 @@ describe('Events (e2e)', () => {
           "Ordem só pode ser 'asc' ou 'desc'",
         );
       });
+
+    await request(app.getHttpServer())
+      .get('/events')
+      .query({ order: '' })
+      .expect(200)
+      .expect((response) => {
+        expect(response.body.message).toEqual(
+          expect(response.body[0].name).toEqual('evento1'),
+        );
+      });
   });
 
   test('/event/:id (GET)', async () => {

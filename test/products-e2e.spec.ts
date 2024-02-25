@@ -105,6 +105,16 @@ describe('Products (e2e)', () => {
           "Ordem só pode ser 'asc' ou 'desc'",
         );
       });
+
+    await request(app.getHttpServer())
+      .get('/products')
+      .query({ order: '' })
+      .expect(200)
+      .expect((response) => {
+        expect(response.body.message).toEqual(
+          expect(response.body[0].name).toEqual('produto1'),
+        );
+      });
   });
 
   test('/product/:id (GET)', async () => {

@@ -104,6 +104,16 @@ describe('Categories (e2e)', () => {
           "Ordem só pode ser 'asc' ou 'desc'",
         );
       });
+
+    await request(app.getHttpServer())
+      .get('/categories')
+      .query({ order: '' })
+      .expect(200)
+      .expect((response) => {
+        expect(response.body.message).toEqual(
+          expect(response.body[0].name).toEqual('categoria1'),
+        );
+      });
   });
 
   test('/category/:id (GET)', async () => {
