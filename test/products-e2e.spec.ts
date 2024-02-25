@@ -62,40 +62,26 @@ describe('Products (e2e)', () => {
   });
 
   test('/product (GET)', async () => {
-    await request(app.getHttpServer())
-      .post('/products')
-      .send(createProductDto)
-      .expect(201)
-      .expect((response) => {
-        expect(response.body).toHaveProperty('id');
-      });
+    const productsNames = ['produto1', 'produto2', 'produto3'];
+    const create = productsNames.map((name) => {
+      const dto: CreateProductDto = { ...createProductDto, name: name };
+      return request(app.getHttpServer())
+        .post('/products')
+        .send(dto)
+        .expect(201)
+        .expect((response) => {
+          expect(response.body).toHaveProperty('id');
+        });
+    });
 
-    createProductDto.name = 'produto3';
-
-    await request(app.getHttpServer())
-      .post('/products')
-      .send(createProductDto)
-      .expect(201)
-      .expect((response) => {
-        expect(response.body).toHaveProperty('id');
-      });
-
-    createProductDto.name = 'produto2';
-
-    await request(app.getHttpServer())
-      .post('/products')
-      .send(createProductDto)
-      .expect(201)
-      .expect((response) => {
-        expect(response.body).toHaveProperty('id');
-      });
+    await Promise.all(create);
 
     await request(app.getHttpServer())
       .get('/products')
       .query({ order: 'asc' })
       .expect(200)
       .expect((response) => {
-        expect(response.body[0].name).toEqual('produto');
+        expect(response.body[0].name).toEqual('produto1');
         expect(response.body[1].name).toEqual('produto2');
         expect(response.body[2].name).toEqual('produto3');
       });
@@ -107,7 +93,7 @@ describe('Products (e2e)', () => {
       .expect((response) => {
         expect(response.body[0].name).toEqual('produto3');
         expect(response.body[1].name).toEqual('produto2');
-        expect(response.body[2].name).toEqual('produto');
+        expect(response.body[2].name).toEqual('produto1');
       });
 
     await request(app.getHttpServer())

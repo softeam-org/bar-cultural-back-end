@@ -62,40 +62,26 @@ describe('Events (e2e)', () => {
   });
 
   test('/event (GET)', async () => {
-    await request(app.getHttpServer())
-      .post('/events')
-      .send(createEventDto)
-      .expect(201)
-      .expect((response) => {
-        expect(response.body).toHaveProperty('id');
-      });
+    const eventsNames = ['evento1', 'evento2', 'evento3'];
+    const create = eventsNames.map((name) => {
+      const dto: CreateEventDto = { ...createEventDto, name: name };
+      return request(app.getHttpServer())
+        .post('/events')
+        .send(dto)
+        .expect(201)
+        .expect((response) => {
+          expect(response.body).toHaveProperty('id');
+        });
+    });
 
-    createEventDto.name = 'evento3';
-
-    await request(app.getHttpServer())
-      .post('/events')
-      .send(createEventDto)
-      .expect(201)
-      .expect((response) => {
-        expect(response.body).toHaveProperty('id');
-      });
-
-    createEventDto.name = 'evento2';
-
-    await request(app.getHttpServer())
-      .post('/events')
-      .send(createEventDto)
-      .expect(201)
-      .expect((response) => {
-        expect(response.body).toHaveProperty('id');
-      });
+    await Promise.all(create);
 
     await request(app.getHttpServer())
       .get('/events')
       .query({ order: 'asc' })
       .expect(200)
       .expect((response) => {
-        expect(response.body[0].name).toEqual('evento');
+        expect(response.body[0].name).toEqual('evento1');
         expect(response.body[1].name).toEqual('evento2');
         expect(response.body[2].name).toEqual('evento3');
       });
@@ -107,7 +93,7 @@ describe('Events (e2e)', () => {
       .expect((response) => {
         expect(response.body[0].name).toEqual('evento3');
         expect(response.body[1].name).toEqual('evento2');
-        expect(response.body[2].name).toEqual('evento');
+        expect(response.body[2].name).toEqual('evento1');
       });
 
     await request(app.getHttpServer())

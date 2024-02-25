@@ -61,40 +61,26 @@ describe('Categories (e2e)', () => {
   });
 
   test('/category (GET)', async () => {
-    await request(app.getHttpServer())
-      .post('/categories')
-      .send(createCategoryDto)
-      .expect(201)
-      .expect((response) => {
-        expect(response.body).toHaveProperty('id');
-      });
+    const categoriesNames = ['categoria1', 'categoria2', 'categoria3'];
+    const create = categoriesNames.map((name) => {
+      const dto: CreateCategoryDto = { ...createCategoryDto, name: name };
+      return request(app.getHttpServer())
+        .post('/categories')
+        .send(dto)
+        .expect(201)
+        .expect((response) => {
+          expect(response.body).toHaveProperty('id');
+        });
+    });
 
-    createCategoryDto.name = 'categoria3';
-
-    await request(app.getHttpServer())
-      .post('/categories')
-      .send(createCategoryDto)
-      .expect(201)
-      .expect((response) => {
-        expect(response.body).toHaveProperty('id');
-      });
-
-    createCategoryDto.name = 'categoria2';
-
-    await request(app.getHttpServer())
-      .post('/categories')
-      .send(createCategoryDto)
-      .expect(201)
-      .expect((response) => {
-        expect(response.body).toHaveProperty('id');
-      });
+    await Promise.all(create);
 
     await request(app.getHttpServer())
       .get('/categories')
       .query({ order: 'asc' })
       .expect(200)
       .expect((response) => {
-        expect(response.body[0].name).toEqual('categoria');
+        expect(response.body[0].name).toEqual('categoria1');
         expect(response.body[1].name).toEqual('categoria2');
         expect(response.body[2].name).toEqual('categoria3');
       });
@@ -106,7 +92,7 @@ describe('Categories (e2e)', () => {
       .expect((response) => {
         expect(response.body[0].name).toEqual('categoria3');
         expect(response.body[1].name).toEqual('categoria2');
-        expect(response.body[2].name).toEqual('categoria');
+        expect(response.body[2].name).toEqual('categoria1');
       });
 
     await request(app.getHttpServer())
