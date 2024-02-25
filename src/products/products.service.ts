@@ -7,7 +7,7 @@ import {
 import { Prisma } from '@prisma/client';
 
 import { PrismaService } from '@src/prisma/prisma.service';
-import { SortOrder } from '@src/utils/types/SortOrder';
+import { SortOrder } from '@src/utils/types';
 
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';

@@ -19,8 +19,8 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
-import { ParseSortOrderPipe } from '@src/utils/pipes/ParseSortOrderPipe';
-import { SortOrder } from '@src/utils/types/SortOrder';
+import { ParseSortOrderPipe } from '@src/utils/pipes';
+import { SortOrder } from '@src/utils/types';
 
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';

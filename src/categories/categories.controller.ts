@@ -17,8 +17,8 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
-import { ParseSortOrderPipe } from '@src/utils/pipes/ParseSortOrderPipe';
-import { SortOrder } from '@src/utils/types/SortOrder';
+import { ParseSortOrderPipe } from '@src/utils/pipes';
+import { SortOrder } from '@src/utils/types';
 
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
