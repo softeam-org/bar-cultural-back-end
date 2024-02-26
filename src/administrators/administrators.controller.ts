@@ -17,8 +17,8 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
-import { ParseSortOrderPipe } from '@src/utils/pipes';
-import { SortOrder } from '@src/utils/types';
+import { ParseSortOrderPipe } from '@utils/pipes';
+import { SortOrder } from '@utils/types';
 
 import { AdministratorsService } from './administrators.service';
 import { CreateAdministratorDto } from './dto/create-administrator.dto';

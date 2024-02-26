@@ -5,9 +5,9 @@ import {
 } from '@nestjs/common';
 
 import { Prisma } from '@prisma/client';
+import { SortOrder } from '@utils/types';
 
 import { PrismaService } from '@src/prisma/prisma.service';
-import { SortOrder } from '@src/utils/types';
 
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';

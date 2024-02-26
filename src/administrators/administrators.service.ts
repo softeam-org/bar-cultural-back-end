@@ -5,10 +5,10 @@ import {
 } from '@nestjs/common';
 
 import { Prisma } from '@prisma/client';
+import { SortOrder } from '@utils/types';
 import { hash } from 'bcrypt';
 
 import { PrismaService } from '@src/prisma/prisma.service';
-import { SortOrder } from '@src/utils/types';
 
 import { CreateAdministratorDto } from './dto/create-administrator.dto';
 import { UpdateAdministratorDto } from './dto/update-administrator.dto';
