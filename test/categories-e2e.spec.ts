@@ -63,7 +63,7 @@ describe('Categories (e2e)', () => {
   test('/category (GET)', async () => {
     const categoriesNames = ['categoria1', 'categoria2', 'categoria3'];
     const create = categoriesNames.map((name) => {
-      const dto: CreateCategoryDto = { ...createCategoryDto, name: name };
+      const dto: CreateCategoryDto = { ...createCategoryDto, name };
       return request(app.getHttpServer())
         .post('/categories')
         .send(dto)

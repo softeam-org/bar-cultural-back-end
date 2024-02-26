@@ -69,7 +69,7 @@ describe('Administrators (e2e)', () => {
     const create = administratorsNames.map((name) => {
       const dto: CreateAdministratorDto = {
         email: name + '@gmail.com',
-        name: name,
+        name,
         password: createAdministratorDto.password,
       };
       return request(app.getHttpServer())

@@ -64,7 +64,7 @@ describe('Events (e2e)', () => {
   test('/event (GET)', async () => {
     const eventsNames = ['evento1', 'evento2', 'evento3'];
     const create = eventsNames.map((name) => {
-      const dto: CreateEventDto = { ...createEventDto, name: name };
+      const dto: CreateEventDto = { ...createEventDto, name };
       return request(app.getHttpServer())
         .post('/events')
         .send(dto)

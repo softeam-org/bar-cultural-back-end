@@ -64,7 +64,7 @@ describe('Products (e2e)', () => {
   test('/product (GET)', async () => {
     const productsNames = ['produto1', 'produto2', 'produto3'];
     const create = productsNames.map((name) => {
-      const dto: CreateProductDto = { ...createProductDto, name: name };
+      const dto: CreateProductDto = { ...createProductDto, name };
       return request(app.getHttpServer())
         .post('/products')
         .send(dto)
