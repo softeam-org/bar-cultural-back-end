@@ -61,7 +61,7 @@ describe('Categories (e2e)', () => {
   });
 
   test('/category (GET)', async () => {
-    const categoriesNames = ['categoria1', 'categoria2', 'categoria3'];
+    const categoriesNames = ['categoria2', 'categoria1', 'categoria3'];
     const create = categoriesNames.map((name) => {
       const dto: CreateCategoryDto = { ...createCategoryDto, name };
       return request(app.getHttpServer())
@@ -111,7 +111,7 @@ describe('Categories (e2e)', () => {
       .expect(200)
       .expect((response) => {
         expect(response.body.message).toEqual(
-          expect(response.body[0].name).toEqual('categoria1'),
+          expect(response.body[0].name).toEqual('categoria2'),
         );
       });
   });

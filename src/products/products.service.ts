@@ -30,10 +30,10 @@ export class ProductsService {
     }
   }
 
-  async findAll(order: SortOrder): Promise<Product[]> {
+  async findAll(order?: SortOrder): Promise<Product[]> {
     return await this.prisma.product.findMany({
       select: selectProduct,
-      orderBy: { name: order },
+      ...(order && { orderBy: { name: order } }),
     });
   }
 

@@ -39,10 +39,10 @@ export class AdministratorsService {
     }
   }
 
-  async findAll(order: SortOrder): Promise<Administrator[]> {
+  async findAll(order?: SortOrder): Promise<Administrator[]> {
     return await this.prisma.administrator.findMany({
       select: selectAdmin,
-      orderBy: { name: order },
+      ...(order && { orderBy: { name: order } }),
     });
   }
 

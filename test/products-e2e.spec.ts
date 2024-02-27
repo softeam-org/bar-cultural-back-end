@@ -62,7 +62,7 @@ describe('Products (e2e)', () => {
   });
 
   test('/product (GET)', async () => {
-    const productsNames = ['produto1', 'produto2', 'produto3'];
+    const productsNames = ['produto2', 'produto1', 'produto3'];
     const create = productsNames.map((name) => {
       const dto: CreateProductDto = { ...createProductDto, name };
       return request(app.getHttpServer())
@@ -112,7 +112,7 @@ describe('Products (e2e)', () => {
       .expect(200)
       .expect((response) => {
         expect(response.body.message).toEqual(
-          expect(response.body[0].name).toEqual('produto1'),
+          expect(response.body[0].name).toEqual('produto2'),
         );
       });
   });

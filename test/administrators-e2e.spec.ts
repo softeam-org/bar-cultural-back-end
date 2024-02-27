@@ -62,8 +62,8 @@ describe('Administrators (e2e)', () => {
 
   test('/administrator (GET)', async () => {
     const administratorsNames = [
-      'administrador1',
       'administrador2',
+      'administrador1',
       'administrador3',
     ];
     const create = administratorsNames.map((name) => {
@@ -119,7 +119,7 @@ describe('Administrators (e2e)', () => {
       .expect(200)
       .expect((response) => {
         expect(response.body.message).toEqual(
-          expect(response.body[0].name).toEqual('administrador1'),
+          expect(response.body[0].name).toEqual('administrador2'),
         );
       });
   });

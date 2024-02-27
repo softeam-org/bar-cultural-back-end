@@ -28,8 +28,10 @@ export class EventService {
     }
   }
 
-  async findAll(order: SortOrder): Promise<Event[]> {
-    return await this.prisma.event.findMany({ orderBy: { name: order } });
+  async findAll(order?: SortOrder): Promise<Event[]> {
+    return await this.prisma.event.findMany({
+      ...(order && { orderBy: { name: order } }),
+    });
   }
 
   async findOne(id: string): Promise<Event> {

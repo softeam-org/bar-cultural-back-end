@@ -62,7 +62,7 @@ describe('Events (e2e)', () => {
   });
 
   test('/event (GET)', async () => {
-    const eventsNames = ['evento1', 'evento2', 'evento3'];
+    const eventsNames = ['evento2', 'evento1', 'evento3'];
     const create = eventsNames.map((name) => {
       const dto: CreateEventDto = { ...createEventDto, name };
       return request(app.getHttpServer())
@@ -112,7 +112,7 @@ describe('Events (e2e)', () => {
       .expect(200)
       .expect((response) => {
         expect(response.body.message).toEqual(
-          expect(response.body[0].name).toEqual('evento1'),
+          expect(response.body[0].name).toEqual('evento2'),
         );
       });
   });

@@ -28,9 +28,9 @@ export class CategoriesService {
     }
   }
 
-  async findAll(order: SortOrder): Promise<Category[]> {
+  async findAll(order?: SortOrder): Promise<Category[]> {
     return await this.prisma.category.findMany({
-      orderBy: { name: order },
+      ...(order && { orderBy: { name: order } }),
     });
   }
 
