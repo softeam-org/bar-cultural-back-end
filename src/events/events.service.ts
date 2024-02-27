@@ -14,7 +14,7 @@ import { UpdateEventDto } from './dto/update-event.dto';
 import { Event } from './entities/event.entity';
 
 @Injectable()
-export class EventService {
+export class EventsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createEventDto: CreateEventDto): Promise<Event> {
