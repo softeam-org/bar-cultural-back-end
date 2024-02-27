@@ -14,6 +14,7 @@ import {
   ApiConflictResponse,
   ApiCreatedResponse,
   ApiOkResponse,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
 
@@ -44,6 +45,13 @@ export class CategoriesController {
   @ApiOkResponse({
     type: Category,
     isArray: true,
+  })
+  @ApiQuery({
+    name: 'order',
+    type: String,
+    description:
+      "Deve ser passado 'asc' ou vazio para retornar os dados ordenados em ordem crescente ou 'desc' para retornar em ordem descrescente com base no nome",
+    required: false,
   })
   @Get()
   findAll(@Query('order', ParseSortOrderPipe) order: SortOrder) {

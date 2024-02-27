@@ -16,6 +16,7 @@ import {
   ApiConflictResponse,
   ApiCreatedResponse,
   ApiOkResponse,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
 
@@ -48,6 +49,13 @@ export class EventController {
     isArray: true,
   })
   @Get()
+  @ApiQuery({
+    name: 'order',
+    type: String,
+    description:
+      "Deve ser passado 'asc' ou vazio para retornar os dados ordenados em ordem crescente ou 'desc' para retornar em ordem descrescente com base no nome",
+    required: false,
+  })
   findAll(@Query('order', ParseSortOrderPipe) order: SortOrder) {
     return this.eventsService.findAll(order);
   }
