@@ -118,7 +118,7 @@ describe('Administrators (e2e)', () => {
       .expect(200)
       .expect((response) => {
         expect(response.body.message).toEqual(
-          expect(response.body[0].name).toEqual('administrador2'),
+          expect(response.body).toHaveLength(3),
         );
       });
   });
