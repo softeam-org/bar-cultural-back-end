@@ -115,7 +115,6 @@ describe('Administrators (e2e)', () => {
 
     await request(app.getHttpServer())
       .get('/administrators')
-      .query({ order: '' })
       .expect(200)
       .expect((response) => {
         expect(response.body.message).toEqual(

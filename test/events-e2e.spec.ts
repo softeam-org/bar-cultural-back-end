@@ -108,7 +108,6 @@ describe('Events (e2e)', () => {
 
     await request(app.getHttpServer())
       .get('/events')
-      .query({ order: '' })
       .expect(200)
       .expect((response) => {
         expect(response.body.message).toEqual(
