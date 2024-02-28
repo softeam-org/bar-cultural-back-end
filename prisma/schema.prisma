@@ -22,15 +22,16 @@ model Administrator {
 }
 
 model Category {
-  id          String   @id @default(uuid())
-  name        String   @unique
+  id          String    @id @default(uuid())
+  name        String    @unique
   description String
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt()
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt()
+  products    Product[]
+  categoryProducts CategoryProduct[]
 
   @@map("categories")
 }
-
 model Event {
   id          String   @id @default(uuid())
   name        String   @unique
@@ -43,12 +44,24 @@ model Event {
 }
 
 model Product {
-  id          String   @id @default(uuid())
-  name        String   @unique
+  id          String     @id @default(uuid())
+  name        String     @unique
   description String
   value       Float
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt()
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt()
+  categories  Category[]
+  categoryProducts CategoryProduct[]
 
   @@map("products")
+}
+
+model CategoryProduct {
+  category_id String
+  product_id  String
+  category    Category @relation(fields: [category_id], references: [id])
+  product     Product  @relation(fields: [product_id], references: [id])
+
+  @@id([category_id, product_id])
+  @@map("category_product")
 }
