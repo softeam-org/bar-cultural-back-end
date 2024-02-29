@@ -18,4 +18,5 @@ export class Product {
 
   @ApiProperty()
   updated_at: Date;
+
 }

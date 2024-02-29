@@ -14,4 +14,5 @@ export class Category {
 
   @ApiProperty()
   updated_at: Date;
+
 }

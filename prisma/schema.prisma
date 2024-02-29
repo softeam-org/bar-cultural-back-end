@@ -27,11 +27,11 @@ model Category {
   description String
   created_at  DateTime  @default(now())
   updated_at  DateTime  @updatedAt()
-  products    Product[]
   categoryProducts CategoryProduct[]
 
   @@map("categories")
 }
+
 model Event {
   id          String   @id @default(uuid())
   name        String   @unique
@@ -50,7 +50,6 @@ model Product {
   value       Float
   created_at  DateTime   @default(now())
   updated_at  DateTime   @updatedAt()
-  categories  Category[]
   categoryProducts CategoryProduct[]
 
   @@map("products")
