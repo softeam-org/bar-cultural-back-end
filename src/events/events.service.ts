@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 
 import { Prisma } from '@prisma/client';
+import { SortOrder } from '@utils/types';
 
 import { PrismaService } from '@src/prisma/prisma.service';
 
@@ -13,7 +14,7 @@ import { UpdateEventDto } from './dto/update-event.dto';
 import { Event } from './entities/event.entity';
 
 @Injectable()
-export class EventService {
+export class EventsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createEventDto: CreateEventDto): Promise<Event> {
@@ -27,8 +28,10 @@ export class EventService {
     }
   }
 
-  async findAll(): Promise<Event[]> {
-    return await this.prisma.event.findMany();
+  async findAll(order?: SortOrder): Promise<Event[]> {
+    return await this.prisma.event.findMany({
+      ...(order && { orderBy: { name: order } }),
+    });
   }
 
   async findOne(id: string): Promise<Event> {

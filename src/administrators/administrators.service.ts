@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 
 import { Prisma } from '@prisma/client';
+import { SortOrder } from '@utils/types';
 import { hash } from 'bcrypt';
 
 import { PrismaService } from '@src/prisma/prisma.service';
@@ -38,8 +39,11 @@ export class AdministratorsService {
     }
   }
 
-  async findAll(): Promise<Administrator[]> {
-    return await this.prisma.administrator.findMany({ select: selectAdmin });
+  async findAll(order?: SortOrder): Promise<Administrator[]> {
+    return await this.prisma.administrator.findMany({
+      select: selectAdmin,
+      ...(order && { orderBy: { name: order } }),
+    });
   }
 
   async findOne(id: string): Promise<Administrator> {

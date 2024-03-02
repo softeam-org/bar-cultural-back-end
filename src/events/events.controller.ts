@@ -8,6 +8,7 @@ import {
   Param,
   Delete,
   Patch,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBadGatewayResponse,
@@ -15,18 +16,22 @@ import {
   ApiConflictResponse,
   ApiCreatedResponse,
   ApiOkResponse,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
+
+import { ParseSortOrderPipe } from '@utils/pipes';
+import { SortOrder } from '@utils/types';
 
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { Event } from './entities/event.entity';
-import { EventService } from './event.service';
+import { EventsService } from './events.service';
 
 @ApiTags('Events')
 @Controller('events')
-export class EventController {
-  constructor(private readonly eventsService: EventService) {}
+export class EventsController {
+  constructor(private readonly eventsService: EventsService) {}
 
   @ApiCreatedResponse({
     description: 'Evento criado com sucesso.',
@@ -44,8 +49,15 @@ export class EventController {
     isArray: true,
   })
   @Get()
-  findAll() {
-    return this.eventsService.findAll();
+  @ApiQuery({
+    name: 'order',
+    type: String,
+    description:
+      "Deve ser passado 'asc' ou vazio para retornar os dados ordenados em ordem crescente ou 'desc' para retornar em ordem descrescente com base no nome",
+    required: false,
+  })
+  findAll(@Query('order', ParseSortOrderPipe) order?: SortOrder) {
+    return this.eventsService.findAll(order);
   }
 
   @ApiOkResponse({

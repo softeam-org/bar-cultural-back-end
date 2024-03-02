@@ -62,19 +62,57 @@ describe('Events (e2e)', () => {
   });
 
   test('/event (GET)', async () => {
+    const eventsNames = ['evento2', 'evento1', 'evento3'];
+    const create = eventsNames.map((name) => {
+      const dto: CreateEventDto = { ...createEventDto, name };
+      return request(app.getHttpServer())
+        .post('/events')
+        .send(dto)
+        .expect(201)
+        .expect((response) => {
+          expect(response.body).toHaveProperty('id');
+        });
+    });
+
+    await Promise.all(create);
+
     await request(app.getHttpServer())
-      .post('/events')
-      .send(createEventDto)
-      .expect(201)
+      .get('/events')
+      .query({ order: 'asc' })
+      .expect(200)
       .expect((response) => {
-        expect(response.body).toHaveProperty('id');
+        expect(response.body[0].name).toEqual('evento1');
+        expect(response.body[1].name).toEqual('evento2');
+        expect(response.body[2].name).toEqual('evento3');
+      });
+
+    await request(app.getHttpServer())
+      .get('/events')
+      .query({ order: 'desc' })
+      .expect(200)
+      .expect((response) => {
+        expect(response.body[0].name).toEqual('evento3');
+        expect(response.body[1].name).toEqual('evento2');
+        expect(response.body[2].name).toEqual('evento1');
+      });
+
+    await request(app.getHttpServer())
+      .get('/events')
+      .query({ order: 'as' })
+      .expect(400)
+      .expect((response) => {
+        expect(response.body.message).toEqual(
+          "Ordem só pode ser 'asc' ou 'desc'",
+        );
       });
 
     await request(app.getHttpServer())
       .get('/events')
       .expect(200)
       .expect((response) => {
-        expect(response.body[0]).toEqual(event);
+        expect(response.body.message).toEqual(
+          expect(response.body).toHaveLength(3),
+        );
       });
   });
 

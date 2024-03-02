@@ -17,6 +17,7 @@
     "forceConsistentCasingInFileNames": false,
     "strictPropertyInitialization": false,
     "paths": {
+      "@utils/*": ["src/utils/*"],
       "@src/*": ["src/*"],
     },
   },

@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 
 import { Prisma } from '@prisma/client';
+import { SortOrder } from '@utils/types';
 
 import { PrismaService } from '@src/prisma/prisma.service';
 
@@ -27,8 +28,10 @@ export class CategoriesService {
     }
   }
 
-  async findAll(): Promise<Category[]> {
-    return await this.prisma.category.findMany();
+  async findAll(order?: SortOrder): Promise<Category[]> {
+    return await this.prisma.category.findMany({
+      ...(order && { orderBy: { name: order } }),
+    });
   }
 
   async findOne(id: string): Promise<Category> {

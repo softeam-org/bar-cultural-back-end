@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBadGatewayResponse,
@@ -13,8 +14,12 @@ import {
   ApiConflictResponse,
   ApiCreatedResponse,
   ApiOkResponse,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
+
+import { ParseSortOrderPipe } from '@utils/pipes';
+import { SortOrder } from '@utils/types';
 
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -41,9 +46,16 @@ export class ProductsController {
     type: Product,
     isArray: true,
   })
+  @ApiQuery({
+    name: 'order',
+    type: String,
+    description:
+      "Deve ser passado 'asc' ou vazio para retornar os dados ordenados em ordem crescente ou 'desc' para retornar em ordem descrescente com base no nome",
+    required: false,
+  })
   @Get()
-  findAll() {
-    return this.productsService.findAll();
+  findAll(@Query('order', ParseSortOrderPipe) order?: SortOrder) {
+    return this.productsService.findAll(order);
   }
 
   @ApiOkResponse({
@@ -63,10 +75,7 @@ export class ProductsController {
     type: Product,
   })
   @Patch(':id')
-  update(
-    @Param('id') id: string, 
-    @Body() updateProductDto: UpdateProductDto,
-  ) {
+  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
     return this.productsService.update(id, updateProductDto);
   }
 
