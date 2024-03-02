@@ -54,7 +54,7 @@ export class ProductsController {
     required: false,
   })
   @Get()
-  findAll(@Query('order', ParseSortOrderPipe) order: SortOrder) {
+  findAll(@Query('order', ParseSortOrderPipe) order?: SortOrder) {
     return this.productsService.findAll(order);
   }
 

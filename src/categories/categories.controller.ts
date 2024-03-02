@@ -54,7 +54,7 @@ export class CategoriesController {
     required: false,
   })
   @Get()
-  findAll(@Query('order', ParseSortOrderPipe) order: SortOrder) {
+  findAll(@Query('order', ParseSortOrderPipe) order?: SortOrder) {
     return this.categoriesService.findAll(order);
   }
 
