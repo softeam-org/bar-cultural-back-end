@@ -30,11 +30,9 @@ describe('Categories (e2e)', () => {
 
   beforeEach(async () => {
     createCategoryDto.name = 'categoria';
-    createCategoryDto.description = 'descrição da categoria';
 
     category.id = expect.any(String);
     category.name = createCategoryDto.name;
-    category.description = createCategoryDto.description;
     category.created_at = expect.any(String);
     category.updated_at = expect.any(String);
 
@@ -160,7 +158,6 @@ describe('Categories (e2e)', () => {
 
     const updateCategoryDto = new UpdateCategoryDto();
     updateCategoryDto.name = 'nova categoria';
-    updateCategoryDto.description = 'nova descrição';
 
     await request(app.getHttpServer())
       .patch(`/categories/${categoryId}`)
@@ -169,7 +166,6 @@ describe('Categories (e2e)', () => {
       .expect((response) => {
         const { body } = response;
         expect(body.name).toEqual(updateCategoryDto.name);
-        expect(body.description).toEqual(updateCategoryDto.description);
       });
 
     updateCategoryDto.name = 'categoria 2';

@@ -7,9 +7,6 @@ export class Category {
   name: string;
 
   @ApiProperty()
-  description: string;
-
-  @ApiProperty()
   created_at: Date;
 
   @ApiProperty()
