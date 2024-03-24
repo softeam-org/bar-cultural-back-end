@@ -7,6 +7,9 @@ export class Category {
   name: string;
 
   @ApiProperty()
+  is_active: boolean;
+
+  @ApiProperty()
   created_at: Date;
 
   @ApiProperty()

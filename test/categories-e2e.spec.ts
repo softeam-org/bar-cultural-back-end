@@ -33,6 +33,7 @@ describe('Categories (e2e)', () => {
 
     category.id = expect.any(String);
     category.name = createCategoryDto.name;
+    category.is_active = true;
     category.created_at = expect.any(String);
     category.updated_at = expect.any(String);
 
