@@ -11,9 +11,6 @@ export class Event {
     description: string;
 
     @ApiProperty()
-    created_by: string;
-
-    @ApiProperty()
     created_at: Date;
 
     @ApiProperty()

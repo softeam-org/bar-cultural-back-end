@@ -29,12 +29,10 @@ describe('Events (e2e)', () => {
   const event = new Event();
 
   beforeEach(async () => {
-    createEventDto.created_by = 'criador';
     createEventDto.description = 'descriçao do evento';
     createEventDto.name = 'evento';
 
     event.id = expect.any(String);
-    event.created_by = createEventDto.created_by;
     event.description = createEventDto.description;
     event.name = createEventDto.name;
     event.created_at = expect.any(String);
@@ -160,7 +158,6 @@ describe('Events (e2e)', () => {
       .expect(201);
 
     const updatedEvent = new UpdateEventDto();
-    updatedEvent.created_by = 'novo criador';
     updatedEvent.description = 'descriçao do evento';
     updatedEvent.name = 'nome alterado';
 
@@ -170,7 +167,6 @@ describe('Events (e2e)', () => {
       .expect(200)
       .expect((response) => {
         const { body } = response;
-        expect(body.created_by).toEqual(updatedEvent.created_by);
         expect(body.description).toEqual(updatedEvent.description);
         expect(body.name).toEqual(updatedEvent.name);
       });

@@ -13,8 +13,4 @@ export class CreateEventDto {
   @IsString()
   description: string;
 
-  @ApiProperty({ example: 'rideclei' })
-  @IsNotEmpty()
-  @IsString()
-  created_by: string;
 }
