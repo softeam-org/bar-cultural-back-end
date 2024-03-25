@@ -15,4 +15,13 @@ export class Event {
 
     @ApiProperty()
     updated_at: Date;
+
+    @ApiProperty()
+    ended_at: Date;
+
+    @ApiProperty()
+    attraction: string;
+
+    @ApiProperty()
+    observations: string[];
 }

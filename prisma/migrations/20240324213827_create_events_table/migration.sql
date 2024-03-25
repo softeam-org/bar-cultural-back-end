@@ -5,6 +5,9 @@ CREATE TABLE "events" (
     "description" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
+    "ended_at" TIMESTAMP(3) NOT NULL,
+    "attraction" TEXT NOT NULL,
+    "observations" TEXT[],
 
     CONSTRAINT "events_pkey" PRIMARY KEY ("id")
 );
