@@ -159,6 +159,7 @@ describe('Categories (e2e)', () => {
 
     const updateCategoryDto = new UpdateCategoryDto();
     updateCategoryDto.name = 'nova categoria';
+    updateCategoryDto.is_active = false;
 
     await request(app.getHttpServer())
       .patch(`/categories/${categoryId}`)
@@ -167,6 +168,7 @@ describe('Categories (e2e)', () => {
       .expect((response) => {
         const { body } = response;
         expect(body.name).toEqual(updateCategoryDto.name);
+        expect(body.is_active).toEqual(updateCategoryDto.is_active);
       });
 
     updateCategoryDto.name = 'categoria 2';
