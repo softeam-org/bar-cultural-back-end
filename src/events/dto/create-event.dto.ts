@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { IsArray, IsDate, IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsDateString, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateEventDto {
   @ApiProperty({ example: 'guilherme' })
@@ -13,8 +13,8 @@ export class CreateEventDto {
   @IsString()
   description: string;
 
-  @ApiProperty({example: new Date(2025,6,12)})
-  @IsDate()
+  @ApiProperty({ example: new Date(2025, 6, 12) })
+  @IsDateString()
   ended_at: Date;
 
   @ApiProperty({ example: 'Ivete Sangalo' })
@@ -22,9 +22,8 @@ export class CreateEventDto {
   @IsString()
   attraction: string;
 
-  @ApiProperty({ example: ['Observação 1','Observação 2'] })
+  @ApiProperty({ example: ['Observação 1', 'Observação 2'] })
   @IsArray()
   @IsString({ each: true })
   observations: string[];
-
 }
