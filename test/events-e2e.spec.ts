@@ -135,7 +135,7 @@ describe('Events (e2e)', () => {
       .get(`/events/${eventId}`)
       .expect(200)
       .expect((response) => {
-        expect(response.body).toEqual({...event, ended_at: event.ended_at?.toISOString()});
+        expect(response.body).toEqual({...event, ended_at: event.ended_at.toISOString()});
       });
 
     await request(app.getHttpServer())
