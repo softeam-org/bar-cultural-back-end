@@ -7,7 +7,7 @@ export class CreateCategoryDto {
   @IsString()
   name: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: true })
   @IsBoolean()
-  is_active: boolean;
+  is_active?: boolean;
 }
